@@ -20,10 +20,14 @@ prompts.question("task-cli: ", (response) => {
     case "delete":
       break;
     case "mark-in-progress":
+      markProgress(args, "in-progress");
       break;
     case "mark-done":
+      markProgress(args, "done");
       break;
     case "list":
+      list();
+      break;
   }
   process.exit();
 });
@@ -55,6 +59,23 @@ function updateTask(args) {
     }
   }
 }
+
+function markProgress(args, status) {
+  const date = new Date();
+  for (let task of tasks) {
+    if (task.id == args[1]) {
+      const updatedTask = {
+        ...task,
+        status: status,
+        updatedAt: date,
+      };
+      tasks[task.id] = updatedTask;
+      writeJson();
+    }
+  }
+}
+
+function list() {}
 
 function writeJson() {
   const jsonFile = {
