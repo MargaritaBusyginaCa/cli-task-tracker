@@ -1,27 +1,11 @@
 {
   "tasks": [
-    { "id": 0, "description": " hello" },
-    { "id": 0, "description": " 123" },
     {
-      "description": " buy groceries again",
-      "updatedAt": "2025-03-10T20:25:45.665Z",
-      "id": 2,
-      "status": "done"
-    },
-    { "id": 3, "description": " hehehe" },
-    {
-      "id": 4,
-      "description": " hithere",
-      "status": "todo",
-      "createdAt": "2025-03-10T19:52:52.665Z",
-      "updatedAt": "2025-03-10T19:52:52.665Z"
-    },
-    {
-      "id": 5,
-      "description": " clean the desk",
-      "status": "todo",
-      "createdAt": "2025-03-10T20:20:55.309Z",
-      "updatedAt": "2025-03-10T20:20:55.309Z"
+      "id": 1,
+      "description": " hi",
+      "status": "done",
+      "createdAt": "2025-03-11T20:46:30.487Z",
+      "updatedAt": "2025-03-11T20:47:37.150Z"
     }
   ]
 }
