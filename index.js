@@ -8,7 +8,9 @@ let tasks = JSON.parse(fs.readFileSync("tasks.json")).tasks;
 
 let recursiveAsyncReadLine = function () {
   rl.question("task-cli: ", (response) => {
-    const args = response.split(",");
+    const args = response
+      .match(/"[^"]*"|\S+/g)
+      .map((arg) => arg.replace(/^"|"$/g, ""));
     if (response == "exit") {
       return rl.close();
     } else {
