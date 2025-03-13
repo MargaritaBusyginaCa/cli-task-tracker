@@ -4,9 +4,29 @@ const readline = require("readline");
 const fs = require("fs");
 
 const rl = readline.createInterface(process.stdin, process.stdout);
+const optionsMessage = `
+  Available options:
+  add "Buy groceries"
+  update 1 "Buy groceries and cook dinner"
+  delete 1
+  mark-in-progress 1
+  mark-done 1
+  list
+  list done
+  list todo
+  list in-progress
+`;
+try {
+  if (!fs.existsSync("tasks.json")) {
+    fs.openSync("tasks.json", "w+");
+    fs.writeFileSync("tasks.json", '{"tasks":[]}');
+  }
+} catch (error) {
+  console.log("there has been an error while creating a json file");
+}
 let tasks = JSON.parse(fs.readFileSync("tasks.json")).tasks;
 
-let recursiveAsyncReadLine = function () {
+let recursiveReadLine = function () {
   rl.question("task-cli: ", (response) => {
     const args = response
       .match(/"[^"]*"|\S+/g)
@@ -31,14 +51,22 @@ let recursiveAsyncReadLine = function () {
           markProgress(args, "done");
           break;
         case "list":
-          list();
+          list(args[1]);
+          break;
+        case "help":
+          console.log(optionsMessage);
+          break;
+        default:
+          console.log(
+            `This operation was not found. Type help to list all available operations`
+          );
           break;
       }
-      recursiveAsyncReadLine();
+      recursiveReadLine();
     }
   });
 };
-recursiveAsyncReadLine();
+recursiveReadLine();
 
 function addTask(args) {
   const date = new Date();
@@ -83,8 +111,19 @@ function deleteTask(args) {
   writeJson();
 }
 
-function list() {
-  console.log(tasks);
+function list(progress) {
+  if (!progress) {
+    console.log(tasks);
+    return;
+  }
+  const matches = [];
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].status == progress) {
+      matches.push(tasks[i]);
+    }
+  }
+  const printMessage = matches.length > 0 ? matches : "No matches found";
+  console.log(printMessage);
 }
 
 function writeJson() {
